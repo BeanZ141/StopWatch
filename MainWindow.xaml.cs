@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Stopwatch
@@ -53,16 +54,20 @@ namespace Stopwatch
             lblMin.Content = timeMin.ToString("00");
         }
 
-        private void btnStart_Click(object sender, RoutedEventArgs e)
+        private void btnStartStop_Click(object sender, RoutedEventArgs e)
         {
-            isActive = true;
-            timer.Start();
-        }
-
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            isActive = false;
-            timer.Stop();
+            if (isActive)
+            {
+                isActive = false;
+                timer.Stop();
+                btnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+            }
+            else
+            {
+                isActive = true;
+                timer.Start();
+                btnStartStopIcon.Data = Geometry.Parse("M0,0 H50 V50 H0 Z");
+            }
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
@@ -71,6 +76,7 @@ namespace Stopwatch
             timer.Stop();
             ResetTime();
             DrawTime();
+            btnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
         }
 
         private void ResetTime()
