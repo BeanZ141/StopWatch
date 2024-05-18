@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "mwLkILDUHddX7uKqUkeaV4+XyqujpZva0z8xklkOmNKhxggsU38rnqCsO2ni6DyFt0J7unODomQe1GlqrTMI4w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\BeanZ\\source\\repos\\Stopwatch\\Stopwatch\\Stopwatch.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\BeanZ\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.77\\microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512"
+  ],
+  "logs": []
+}
