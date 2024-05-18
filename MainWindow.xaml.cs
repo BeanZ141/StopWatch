@@ -5,9 +5,45 @@ namespace Stopwatch
 {
     public partial class MainWindow : Window
     {
+        int timeCs, timeS, timeMin;
+        bool isActive;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            timeCs = 0;
+            timeS = 0;
+            timeMin = 0;
+
+            isActive = true;
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            isActive = true;
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            isActive = false;
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            isActive = false;
+
+            ResetTime();
+        }
+
+        private void ResetTime()
+        {
+            timeCs = 0;
+            timeS = 0;
+            timeMin = 0;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

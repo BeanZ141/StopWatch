@@ -91,11 +91,11 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Label Content="00" HorizontalAlignment="Left" Margin="38,46,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Black" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="42"/>
-            <Label Content="00" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Black" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="42"/>
-            <Label Content="00" HorizontalAlignment="Left" Margin="122,46,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Black" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="42"/>
+            <Label x:Name="lblMinute1" Content="00" HorizontalAlignment="Left" Margin="38,46,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Black" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="42"/>
+            <Label x:Name="lblSeconds" Content="00" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Black" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="42"/>
+            <Label x:Name="lblMilliSeconds" Content="00" HorizontalAlignment="Left" Margin="122,46,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Black" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="42"/>
 
-            <Button
+            <Button x:Name="btnStart"
             HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,181,0,0" Width="35" Height="35" Background="#FFB9FF42" Grid.Row="1">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -113,7 +113,7 @@
                 <Path Data="M0,0 L50,25 L0,50 Z"
           Fill="Black" Stretch="Uniform" Height="10" Width="10" Margin="2,0,0,0"/>
             </Button>
-            <Button
+            <Button x:Name="btnReset"
             HorizontalAlignment="Left" VerticalAlignment="Top" Margin="144,188,0,0" Width="20" Height="20" Background="#FFB9FF42" Grid.Row="1">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -129,7 +129,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="47,188,0,0" Width="20" Height="20" Background="#FFB9FF42" Grid.Row="1">
+            <Button x:Name="btnStop" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="47,188,0,0" Width="20" Height="20" Background="#FFB9FF42" Grid.Row="1">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
