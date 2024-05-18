@@ -21,3 +21,4 @@ C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\ref\Sto
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\Stopwatch.csproj.AssemblyReference.cache
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\Stopwatch.csproj.Up2Date
+C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\Stopwatch.sourcelink.json
