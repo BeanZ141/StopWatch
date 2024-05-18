@@ -18,21 +18,21 @@ namespace Stopwatch
             InitializeTimer();
         }
 
-        // Add Timestamp class to hold timestamp data
         public class Timestamp
         {
             public DateTime Time { get; set; }
 
             public override string ToString()
             {
-                return Time.ToString("HH:mm:ss.ff");
+                return Time.ToString("mm:ss.ff");
             }
         }
 
-        // Implement functionality for Add Timestamp button
         private void btnAddTimestamp_Click(object sender, RoutedEventArgs e)
         {
-            lstTimestamps.Items.Add(new Timestamp { Time = DateTime.Now });
+            var currentTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                                            timeMin, timeSec, timeCs / 10);
+            lstTimestamps.Items.Insert(0, new Timestamp { Time = currentTime });
         }
 
         private void InitializeTimer()
