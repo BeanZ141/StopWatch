@@ -18,6 +18,23 @@ namespace Stopwatch
             InitializeTimer();
         }
 
+        // Add Timestamp class to hold timestamp data
+        public class Timestamp
+        {
+            public DateTime Time { get; set; }
+
+            public override string ToString()
+            {
+                return Time.ToString("HH:mm:ss.ff");
+            }
+        }
+
+        // Implement functionality for Add Timestamp button
+        private void btnAddTimestamp_Click(object sender, RoutedEventArgs e)
+        {
+            lstTimestamps.Items.Add(new Timestamp { Time = DateTime.Now });
+        }
+
         private void InitializeTimer()
         {
             timer = new DispatcherTimer();
@@ -104,18 +121,6 @@ namespace Stopwatch
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
-        }
-
-        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Maximized)
-            {
-                WindowState = WindowState.Normal;
-            }
-            else
-            {
-                WindowState = WindowState.Maximized;
-            }
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
