@@ -10,7 +10,8 @@ namespace Stopwatch
     {
         private int timeCs, timeSec, timeMin;
         private bool isActive;
-        private DispatcherTimer timer;
+        private System.Timers.Timer timer;
+        private Timestamp currentTimestamp;
 
         public MainWindow()
         {
@@ -20,29 +21,48 @@ namespace Stopwatch
 
         public class Timestamp
         {
-            public DateTime Time { get; set; }
+            public int StartMinutes { get; set; }
+            public int StartSeconds { get; set; }
+            public int StartCentiseconds { get; set; }
+            public int EndMinutes { get; set; }
+            public int EndSeconds { get; set; }
+            public int EndCentiseconds { get; set; }
 
             public override string ToString()
             {
-                return Time.ToString("mm:ss.ff");
+                return $"{StartMinutes:0} {StartSeconds:00}.{StartCentiseconds:00}    {EndMinutes:0} {EndSeconds:00}.{EndCentiseconds:00}";
             }
         }
 
-        private void btnAddTimestamp_Click(object sender, RoutedEventArgs e)
+        private void BtnAddTimestamp_Click(object sender, RoutedEventArgs e)
         {
-            var currentTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-                                            timeMin, timeSec, timeCs / 10);
-            lstTimestamps.Items.Insert(0, new Timestamp { Time = currentTime });
+            var endTimestamp = new Timestamp
+            {
+                StartMinutes = currentTimestamp?.StartMinutes ?? 0,
+                StartSeconds = currentTimestamp?.StartSeconds ?? 0,
+                StartCentiseconds = currentTimestamp?.StartCentiseconds ?? 0,
+                EndMinutes = timeMin,
+                EndSeconds = timeSec,
+                EndCentiseconds = timeCs
+            };
+
+            int index = lstTimestamps.Items.Count + 1;
+            lstTimestamps.Items.Insert(0, $"# {index,-3}   {endTimestamp}");
+            currentTimestamp = new Timestamp
+            {
+                StartMinutes = timeMin,
+                StartSeconds = timeSec,
+                StartCentiseconds = timeCs
+            };
         }
 
         private void InitializeTimer()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(10);
-            timer.Tick += Timer_Tick;
+            timer = new System.Timers.Timer(10);
+            timer.Elapsed += Timer_Tick;
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object? sender, System.Timers.ElapsedEventArgs e)
         {
             if (isActive)
             {
@@ -59,9 +79,8 @@ namespace Stopwatch
                         timeSec = 0;
                     }
                 }
+                Dispatcher.BeginInvoke(new Action(DrawTime));
             }
-
-            DrawTime();
         }
 
         private void DrawTime()
@@ -71,29 +90,42 @@ namespace Stopwatch
             lblMin.Content = timeMin.ToString("00");
         }
 
-        private void btnStartStop_Click(object sender, RoutedEventArgs e)
+        private void BtnStartStop_Click(object sender, RoutedEventArgs e)
         {
             if (isActive)
             {
                 isActive = false;
                 timer.Stop();
-                btnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+                BtnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+                BtnAddTimestamp.Visibility = Visibility.Collapsed; // Hide Add Timestamp button
             }
             else
             {
+                currentTimestamp ??= new Timestamp
+                {
+                    StartMinutes = timeMin,
+                    StartSeconds = timeSec,
+                    StartCentiseconds = timeCs
+                };
                 isActive = true;
                 timer.Start();
-                btnStartStopIcon.Data = Geometry.Parse("M0,0 H50 V50 H0 Z");
+                BtnStartStopIcon.Data = Geometry.Parse("M0,0 H50 V50 H0 Z");
+                BtnAddTimestamp.Visibility = Visibility.Visible;
             }
         }
 
-        private void btnReset_Click(object sender, RoutedEventArgs e)
+        private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
             isActive = false;
             timer.Stop();
             ResetTime();
             DrawTime();
-            btnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+            BtnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+            lstTimestamps.Items.Clear();
+            #pragma warning disable CS8625
+            currentTimestamp = null;
+            #pragma warning restore CS8625
+            BtnAddTimestamp.Visibility = Visibility.Collapsed;
         }
 
         private void ResetTime()
@@ -109,7 +141,7 @@ namespace Stopwatch
 
             var screen = System.Windows.SystemParameters.WorkArea;
 
-            this.Left = screen.Right - this.Width - padding;
+            this.Left = screen.Left - this.Width - padding;
             this.Top = screen.Bottom - this.Height - padding;
         }
 
@@ -130,5 +162,5 @@ namespace Stopwatch
                 this.DragMove();
             }
         }
-    }
+    }   
 }
