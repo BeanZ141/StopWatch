@@ -11,10 +11,10 @@ namespace StopwatchApp
 {
     public partial class MainWindow : Window
     {
-        private System.Diagnostics.Stopwatch stopwatch;
-        private DispatcherTimer uiTimer;
+        private System.Diagnostics.Stopwatch? stopwatch = null;
+        private DispatcherTimer? uiTimer = null;
         private bool isActive;
-        private Timestamp currentTimestamp;
+        private Timestamp? currentTimestamp = null;
 
         public MainWindow()
         {
@@ -66,14 +66,14 @@ namespace StopwatchApp
             var endTimestamp = new Timestamp
             {
                 StartTime = currentTimestamp?.StartTime ?? TimeSpan.Zero,
-                EndTime = stopwatch.Elapsed
+                EndTime = stopwatch?.Elapsed ?? TimeSpan.Zero
             };
 
             int index = lstTimestamps.Items.Count + 1;
             lstTimestamps.Items.Insert(0, $"# {index,-3}   {endTimestamp}");
             currentTimestamp = new Timestamp
             {
-                StartTime = stopwatch.Elapsed
+                StartTime = stopwatch?.Elapsed ?? TimeSpan.Zero
             };
             this.Focus();
         }
@@ -98,10 +98,13 @@ namespace StopwatchApp
 
         private void DrawTime()
         {
-            TimeSpan elapsed = stopwatch.Elapsed;
-            lblCs.Content = (elapsed.Milliseconds / 10).ToString("00");
-            lblSec.Content = elapsed.Seconds.ToString("00");
-            lblMin.Content = elapsed.Minutes.ToString("00");
+            if (stopwatch != null)
+            {
+                TimeSpan elapsed = stopwatch.Elapsed;
+                lblCs.Content = (elapsed.Milliseconds / 10).ToString("00");
+                lblSec.Content = elapsed.Seconds.ToString("00");
+                lblMin.Content = elapsed.Minutes.ToString("00");
+            }
         }
 
         private void BtnStartStop_Click(object sender, RoutedEventArgs e)
@@ -109,8 +112,8 @@ namespace StopwatchApp
             if (isActive)
             {
                 isActive = false;
-                stopwatch.Stop();
-                uiTimer.Stop();
+                stopwatch?.Stop();
+                uiTimer?.Stop();
 
                 var icon = (Path)FindName("BtnStartStopIcon");
                 if (icon != null)
@@ -125,12 +128,12 @@ namespace StopwatchApp
                 {
                     currentTimestamp = new Timestamp
                     {
-                        StartTime = stopwatch.Elapsed
+                        StartTime = stopwatch?.Elapsed ?? TimeSpan.Zero
                     };
                 }
                 isActive = true;
-                stopwatch.Start();
-                uiTimer.Start();
+                stopwatch?.Start();
+                uiTimer?.Start();
 
                 var icon = (Path)FindName("BtnStartStopIcon");
                 if (icon != null)
@@ -142,11 +145,13 @@ namespace StopwatchApp
             this.Focus();
         }
 
+
+
         private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
             isActive = false;
-            stopwatch.Reset();
-            uiTimer.Stop();
+            stopwatch?.Reset();
+            uiTimer?.Stop();
             DrawTime();
 
             var icon = (Path)FindName("BtnStartStopIcon");
