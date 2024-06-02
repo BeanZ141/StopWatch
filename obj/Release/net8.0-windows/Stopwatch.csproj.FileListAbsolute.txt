@@ -12,6 +12,7 @@ C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\Theme
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\Themes\Styles.baml
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\MainWindow.g.cs
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\App.g.cs
+C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\Stopwatch_Content.g.cs
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\Stopwatch_MarkupCompile.cache
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\Stopwatch_MarkupCompile.lref
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Release\net8.0-windows\App.baml

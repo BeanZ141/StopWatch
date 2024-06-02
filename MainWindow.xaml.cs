@@ -1,23 +1,25 @@
-﻿using System;
+﻿using Stopwatch;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace Stopwatch
+namespace StopwatchApp
 {
     public partial class MainWindow : Window
     {
-        private int timeCs, timeSec, timeMin;
+        private System.Diagnostics.Stopwatch stopwatch;
+        private DispatcherTimer uiTimer;
         private bool isActive;
-        private DispatcherTimer timer;
         private Timestamp currentTimestamp;
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeTimer();
+            InitializeTimers();
             this.KeyDown += MainWindow_KeyDown;
         }
 
@@ -50,16 +52,12 @@ namespace Stopwatch
 
         public class Timestamp
         {
-            public int StartMinutes { get; set; }
-            public int StartSeconds { get; set; }
-            public int StartCentiseconds { get; set; }
-            public int EndMinutes { get; set; }
-            public int EndSeconds { get; set; }
-            public int EndCentiseconds { get; set; }
+            public TimeSpan StartTime { get; set; }
+            public TimeSpan EndTime { get; set; }
 
             public override string ToString()
             {
-                return $"{StartMinutes:0} {StartSeconds:00}.{StartCentiseconds:00}    {EndMinutes:0} {EndSeconds:00}.{EndCentiseconds:00}";
+                return $"{StartTime.Minutes:0} {StartTime.Seconds:00}.{StartTime.Milliseconds / 10:00}    {EndTime.Minutes:0} {EndTime.Seconds:00}.{EndTime.Milliseconds / 10:00}";
             }
         }
 
@@ -67,60 +65,43 @@ namespace Stopwatch
         {
             var endTimestamp = new Timestamp
             {
-                StartMinutes = currentTimestamp?.StartMinutes ?? 0,
-                StartSeconds = currentTimestamp?.StartSeconds ?? 0,
-                StartCentiseconds = currentTimestamp?.StartCentiseconds ?? 0,
-                EndMinutes = timeMin,
-                EndSeconds = timeSec,
-                EndCentiseconds = timeCs
+                StartTime = currentTimestamp?.StartTime ?? TimeSpan.Zero,
+                EndTime = stopwatch.Elapsed
             };
 
             int index = lstTimestamps.Items.Count + 1;
             lstTimestamps.Items.Insert(0, $"# {index,-3}   {endTimestamp}");
             currentTimestamp = new Timestamp
             {
-                StartMinutes = timeMin,
-                StartSeconds = timeSec,
-                StartCentiseconds = timeCs
+                StartTime = stopwatch.Elapsed
             };
             this.Focus();
         }
 
-        private void InitializeTimer()
+        private void InitializeTimers()
         {
-            timer = new DispatcherTimer
+            stopwatch = new System.Diagnostics.Stopwatch();
+            uiTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(10)
+                Interval = TimeSpan.FromMilliseconds(5)
             };
-            timer.Tick += Timer_Tick;
+            uiTimer.Tick += UiTimer_Tick;
         }
 
-        private void Timer_Tick(object? sender, EventArgs e)
+        private void UiTimer_Tick(object? sender, EventArgs e)
         {
             if (isActive)
             {
-                timeCs++;
-
-                if (timeCs >= 100)
-                {
-                    timeSec++;
-                    timeCs = 0;
-
-                    if (timeSec >= 60)
-                    {
-                        timeMin++;
-                        timeSec = 0;
-                    }
-                }
                 DrawTime();
             }
         }
 
         private void DrawTime()
         {
-            lblCs.Content = timeCs.ToString("00");
-            lblSec.Content = timeSec.ToString("00");
-            lblMin.Content = timeMin.ToString("00");
+            TimeSpan elapsed = stopwatch.Elapsed;
+            lblCs.Content = (elapsed.Milliseconds / 10).ToString("00");
+            lblSec.Content = elapsed.Seconds.ToString("00");
+            lblMin.Content = elapsed.Minutes.ToString("00");
         }
 
         private void BtnStartStop_Click(object sender, RoutedEventArgs e)
@@ -128,7 +109,8 @@ namespace Stopwatch
             if (isActive)
             {
                 isActive = false;
-                timer.Stop();
+                stopwatch.Stop();
+                uiTimer.Stop();
 
                 var icon = (Path)FindName("BtnStartStopIcon");
                 if (icon != null)
@@ -139,14 +121,16 @@ namespace Stopwatch
             }
             else
             {
-                currentTimestamp ??= new Timestamp
+                if (currentTimestamp == null)
                 {
-                    StartMinutes = timeMin,
-                    StartSeconds = timeSec,
-                    StartCentiseconds = timeCs
-                };
+                    currentTimestamp = new Timestamp
+                    {
+                        StartTime = stopwatch.Elapsed
+                    };
+                }
                 isActive = true;
-                timer.Start();
+                stopwatch.Start();
+                uiTimer.Start();
 
                 var icon = (Path)FindName("BtnStartStopIcon");
                 if (icon != null)
@@ -161,8 +145,8 @@ namespace Stopwatch
         private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
             isActive = false;
-            timer.Stop();
-            ResetTime();
+            stopwatch.Reset();
+            uiTimer.Stop();
             DrawTime();
 
             var icon = (Path)FindName("BtnStartStopIcon");
@@ -173,13 +157,6 @@ namespace Stopwatch
             lstTimestamps.Items.Clear();
             BtnAddTimestamp.Visibility = Visibility.Collapsed;
             Focus();
-        }
-
-        private void ResetTime()
-        {
-            timeCs = 0;
-            timeSec = 0;
-            timeMin = 0;
         }
 
         private void LightThemeClick(object sender, RoutedEventArgs e)

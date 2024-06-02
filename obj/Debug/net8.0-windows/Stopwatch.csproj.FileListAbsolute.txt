@@ -28,3 +28,4 @@ C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\refint\
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\Stopwatch.pdb
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\Stopwatch.genruntimeconfig.cache
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\ref\Stopwatch.dll
+C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\Stopwatch_Content.g.cs

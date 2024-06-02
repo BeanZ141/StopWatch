@@ -1,9 +1,9 @@
-﻿<Window x:Class="Stopwatch.MainWindow"
+﻿<Window x:Class="StopwatchApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Stopwatch"
+        xmlns:local="clr-namespace:StopwatchApp"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -11,7 +11,7 @@
         MaxHeight="316" MaxWidth="221"
         MinHeight="316" MinWidth="221"
         Title="StopWatch" Height="316" Width="221" Foreground="#FFD4D4D4"
-        Icon="C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\favicon.ico">
+        Icon="C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\Resources\favicon.ico">
 
     
     <WindowChrome.WindowChrome>
