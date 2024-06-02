@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Stopwatch
@@ -10,13 +11,41 @@ namespace Stopwatch
     {
         private int timeCs, timeSec, timeMin;
         private bool isActive;
-        private System.Timers.Timer timer;
+        private DispatcherTimer timer;
         private Timestamp currentTimestamp;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeTimer();
+            this.KeyDown += MainWindow_KeyDown;
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Space:
+                    BtnStartStop_Click(BtnStartStop, new RoutedEventArgs());
+                    e.Handled = true;
+                    break;
+                case Key.R:
+                    BtnReset_Click(BtnReset, new RoutedEventArgs());
+                    e.Handled = true;
+                    break;
+                case Key.T:
+                    if (isActive)
+                    {
+                        BtnAddTimestamp_Click(BtnAddTimestamp, new RoutedEventArgs());
+                    }
+                    e.Handled = true;
+                    break;
+                case Key.P:
+                    this.Topmost = !this.Topmost;
+                    AlwaysOnTopIndicator.Visibility = this.Topmost ? Visibility.Visible : Visibility.Collapsed;
+                    e.Handled = true;
+                    break;
+            }
         }
 
         public class Timestamp
@@ -54,15 +83,19 @@ namespace Stopwatch
                 StartSeconds = timeSec,
                 StartCentiseconds = timeCs
             };
+            this.Focus();
         }
 
         private void InitializeTimer()
         {
-            timer = new System.Timers.Timer(10);
-            timer.Elapsed += Timer_Tick;
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(10)
+            };
+            timer.Tick += Timer_Tick;
         }
 
-        private void Timer_Tick(object? sender, System.Timers.ElapsedEventArgs e)
+        private void Timer_Tick(object? sender, EventArgs e)
         {
             if (isActive)
             {
@@ -79,7 +112,7 @@ namespace Stopwatch
                         timeSec = 0;
                     }
                 }
-                Dispatcher.BeginInvoke(new Action(DrawTime));
+                DrawTime();
             }
         }
 
@@ -96,8 +129,13 @@ namespace Stopwatch
             {
                 isActive = false;
                 timer.Stop();
-                BtnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
-                BtnAddTimestamp.Visibility = Visibility.Collapsed; // Hide Add Timestamp button
+
+                var icon = (Path)FindName("BtnStartStopIcon");
+                if (icon != null)
+                {
+                    icon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+                }
+                BtnAddTimestamp.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -109,9 +147,15 @@ namespace Stopwatch
                 };
                 isActive = true;
                 timer.Start();
-                BtnStartStopIcon.Data = Geometry.Parse("M0,0 H50 V50 H0 Z");
+
+                var icon = (Path)FindName("BtnStartStopIcon");
+                if (icon != null)
+                {
+                    icon.Data = Geometry.Parse("M0,0 H50 V50 H0 Z");
+                }
                 BtnAddTimestamp.Visibility = Visibility.Visible;
             }
+            this.Focus();
         }
 
         private void BtnReset_Click(object sender, RoutedEventArgs e)
@@ -120,12 +164,15 @@ namespace Stopwatch
             timer.Stop();
             ResetTime();
             DrawTime();
-            BtnStartStopIcon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+
+            var icon = (Path)FindName("BtnStartStopIcon");
+            if (icon != null)
+            {
+                icon.Data = Geometry.Parse("M0,0 L50,25 L0,50 Z");
+            }
             lstTimestamps.Items.Clear();
-            #pragma warning disable CS8625
-            currentTimestamp = null;
-            #pragma warning restore CS8625
             BtnAddTimestamp.Visibility = Visibility.Collapsed;
+            Focus();
         }
 
         private void ResetTime()
@@ -135,14 +182,24 @@ namespace Stopwatch
             timeMin = 0;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void LightThemeClick(object sender, RoutedEventArgs e)
         {
-            double padding = 10.0;
+            AppTheme.ChangeTheme(new Uri("Themes/LightTheme.xaml", UriKind.Relative));
+        }
 
-            var screen = System.Windows.SystemParameters.WorkArea;
+        private void DarkThemeClick(object sender, RoutedEventArgs e)
+        {
+            AppTheme.ChangeTheme(new Uri("Themes/DarkTheme.xaml", UriKind.Relative));
+        }
 
-            this.Left = screen.Left - this.Width - padding;
-            this.Top = screen.Bottom - this.Height - padding;
+        private void AmoledThemeClick(object sender, RoutedEventArgs e)
+        {
+            AppTheme.ChangeTheme(new Uri("Themes/AmoledTheme.xaml", UriKind.Relative));
+        }
+
+        private void RedThemeClick(object sender, RoutedEventArgs e)
+        {
+            AppTheme.ChangeTheme(new Uri("Themes/RedTheme.xaml", UriKind.Relative));
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -162,5 +219,5 @@ namespace Stopwatch
                 this.DragMove();
             }
         }
-    }   
+    }
 }

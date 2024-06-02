@@ -5,16 +5,16 @@ winexe
 C#
 .cs
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\obj\Debug\net8.0-windows\
-Stopwatch
+Stopwatch_xlt41y0y_wpftmp
 none
 false
-TRACE;DEBUG;NET;NET8_0;NETCOREAPP
+TRACE;RELEASE;NET;NET8_0;NETCOREAPP
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\App.xaml
-11407045341
+6-812703751
 
-4-101903766
-199-1977627810
-MainWindow.xaml;
+7-1262248766
+398339711676
+MainWindow.xaml;Themes\AmoledTheme.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;Themes\RedTheme.xaml;Themes\Styles.xaml;
 
 False
 

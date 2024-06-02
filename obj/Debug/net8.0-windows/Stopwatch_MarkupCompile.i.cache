@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\App.xaml
-11407045341
+6-812703751
 
-6623903896
+71422670869
 199-1977627810
-MainWindow.xaml;
+MainWindow.xaml;Themes\AmoledTheme.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;Themes\RedTheme.xaml;Themes\Styles.xaml;
 
-True
+False
 

@@ -7,27 +7,27 @@
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
-        Loaded="Window_Loaded"
         Background="Transparent" 
         MaxHeight="316" MaxWidth="221"
         MinHeight="316" MinWidth="221"
-        Title="StopWatch" Height="316" Width="221" Foreground="#FFD4D4D4">
+        Title="StopWatch" Height="316" Width="221" Foreground="#FFD4D4D4"
+        Icon="C:\Users\BeanZ\source\repos\Stopwatch\Stopwatch\favicon.ico">
 
+    
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
     </WindowChrome.WindowChrome>
-
     <Border CornerRadius="8" BorderThickness="4">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0, 0" EndPoint="1 ,1">
-                <GradientStop Color="#0f0f0f"></GradientStop>
+                <GradientStop Color="{DynamicResource LightGSBackground}"></GradientStop>
             </LinearGradientBrush>
         </Border.BorderBrush>
 
         <Grid>
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0, 0" EndPoint="1 ,1">
-                    <GradientStop Color="#0f0f0f"></GradientStop>
+                    <GradientStop Color="{DynamicResource LightGSBackground}"></GradientStop>
                 </LinearGradientBrush>
             </Grid.Background>
             <Grid.RowDefinitions>
@@ -35,8 +35,71 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <Grid.ContextMenu>
+                <ContextMenu BorderThickness="0" FontSize="10" Padding="0" Width="90" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}">
+                    <MenuItem BorderThickness="0" Width="90" Padding="5,2" Header="Light Theme" Click="LightThemeClick" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="MenuItem">
+                                <Grid Background="{DynamicResource LightBackground}">
+                                    <Border Background="{DynamicResource LightBackground}">
+                                        <ContentPresenter ContentSource="Header" Margin="2"/>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                    </MenuItem>
+                    <MenuItem BorderThickness="0" Width="90" Padding="5,2" Header="Dark Theme" Click="DarkThemeClick" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="MenuItem">
+                                <Grid Background="{DynamicResource LightBackground}">
+                                    <Border Background="{DynamicResource LightBackground}">
+                                        <ContentPresenter ContentSource="Header" Margin="2"/>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                    </MenuItem>
+                    <MenuItem BorderThickness="0" Width="90" Padding="5,2" Header="Amoled Theme" Click="AmoledThemeClick" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="MenuItem">
+                                <Grid Background="{DynamicResource LightBackground}">
+                                    <Border Background="{DynamicResource LightBackground}">
+                                        <ContentPresenter ContentSource="Header" Margin="2"/>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="Green"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                    <MenuItem BorderThickness="0" Width="90" Padding="5,2" Header="Red Theme" Click="RedThemeClick" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="MenuItem">
+                                <Grid Background="{DynamicResource LightBackground}">
+                                    <Border Background="{DynamicResource LightBackground}">
+                                        <ContentPresenter ContentSource="Header" Margin="2"/>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                    </MenuItem>
+                </ContextMenu>
+            </Grid.ContextMenu>
+
+
+            <Image x:Name="AlwaysOnTopIndicator" Source="aot.png" 
+                   HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Margin="186,0,0,0" Width="37" Height="35" Visibility="Collapsed"/>
+
             <!-- Top Border -->
-            <ListBox x:Name="lstTimestamps" Foreground="#FFE6E6E6" BorderThickness="0" Margin="48,88,48,28" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" FontFamily="Yu Gothic UI" FontSize="10" Background="#FF0f0f0f">
+            <ListBox x:Name="lstTimestamps" Foreground="{DynamicResource LightForeground}" BorderThickness="0" Margin="48,88,48,28" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" FontFamily="Yu Gothic UI" FontSize="10" Background="{DynamicResource LightBackground}">
                 <ListBox.OpacityMask>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                         <GradientStop Color="White" Offset="0"/>
@@ -68,20 +131,19 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <!-- Top Border -->
             <Border Grid.Row="0" Background="Transparent"  MouseDown="Border_MouseDown"/>
+
             <!-- Close Button -->
-            <Button Click="CloseButton_Click"
-        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" Width="9" Height="9" Background="#fc5753">
+            <Button Click="CloseButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0" Width="9" Height="9" Background="#fc5753">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="50"/>
+                            <Border x:Name="border1" Background="{TemplateBinding Background}" CornerRadius="50"/>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#993532"/>
+                                <Setter TargetName="border1" Property="Background" Value="#993532"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -89,8 +151,7 @@
             </Button>
 
             <!-- Minimize Button -->
-            <Button Content="" Click="MinimizeButton_Click"
-        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0,0,0" Width="9" Height="9" Background="#fdbc40">
+            <Button Content="" Click="MinimizeButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0,0,0" Width="9" Height="9" Background="#fdbc40">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
@@ -107,61 +168,64 @@
             </Button>
 
             <!-- Maximize/Restore Button -->
-            <Label x:Name="lblMin" Content="00" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" Grid.Row="1" Background="#0f0f0f" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="47" FontFamily="Verdana"/>
-            <Label x:Name="lblSec" Content="00" HorizontalAlignment="Left" Margin="104,10,0,0" VerticalAlignment="Top" Grid.Row="1" Background="#0f0f0f" Foreground="#FFE6E6E6" FontSize="30" Height="50" Width="54" FontFamily="Verdana"/>
-            <Label x:Name="lblCs" Content="00" HorizontalAlignment="Left" Margin="112,41,0,0" VerticalAlignment="Top" Grid.Row="1" Background="#00272727" Foreground="#FFE6E6E6" FontSize="23" Height="34" Width="44" FontFamily="verdana"/>
+            <Label x:Name="lblMin" Content="00" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" Grid.Row="1" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}" FontSize="30" Height="50" Width="47" FontFamily="Verdana"/>
+            <Label x:Name="lblSec" Content="00" HorizontalAlignment="Left" Margin="104,10,0,0" VerticalAlignment="Top" Grid.Row="1" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}" FontSize="30" Height="50" Width="54" FontFamily="Verdana"/>
+            <Label x:Name="lblCs" Content="00" HorizontalAlignment="Left" Margin="112,41,0,0" VerticalAlignment="Top" Grid.Row="1" Background="Transparent" Foreground="{DynamicResource LightForeground}" FontSize="23" Height="34" Width="44" FontFamily="verdana"/>
 
-            <Button x:Name="BtnStartStop"
-        HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,226,0,0" Width="35" Height="35" Background="#FF272727" Grid.Row="1" Click="BtnStartStop_Click">
+            <Button x:Name="BtnStartStop" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,226,0,0" Width="35" Height="35" Background="{DynamicResource LightBackground}" Grid.Row="1" Click="BtnStartStop_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="50"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border x:Name="border" Background="{DynamicResource LightBackground}" CornerRadius="50"/>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Path x:Name="BtnStartStopIcon" Data="M0,0 L50,25 L0,50 Z" Fill="{DynamicResource LightForeground}" Stretch="Uniform" Height="10" Width="10" Margin="0,-1,0,0"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FF474747"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-                <Path x:Name="BtnStartStopIcon" Data="M0,0 L50,25 L0,50 Z" Fill="White" Stretch="Uniform" Height="10" Width="10" Margin="0,-1,0,0"/>
-            </Button>
-
-            <Button x:Name="BtnReset"
-            HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,233,0,0" Width="20" Height="20" Background="#FF272727" Foreground="White" Grid.Row="1" Click="BtnReset_Click" Content="RESET" FontSize="5">
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="50"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FF424242"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource LightMouseOverBackgroundColor}"/>
+                                <Setter TargetName="BtnStartStopIcon" Property="Fill" Value="{DynamicResource LightMouseOverForegroundColor}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Label x:Name="lblParent" Content=":" HorizontalAlignment="Center" Margin="0,16,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="#FFE6E6E6" Height="31" FontSize="17" Width="14"/>
 
-            <Button x:Name="BtnAddTimestamp" Content="+" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="139,0,0,36" Width="20" Height="20" Foreground="White" Background="#323232" Grid.Row="1" Click="BtnAddTimestamp_Click" FontSize="9" Visibility="Collapsed">
+            <Label x:Name="lblParent" Content=":" HorizontalAlignment="Center" Margin="0,16,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="{DynamicResource LightForeground}" Height="31" FontSize="17" Width="14"/>
+
+            <Button  x:Name="BtnReset" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,233,0,0" Width="20" Height="20" Background="{DynamicResource LightBackground}" Foreground="{DynamicResource LightForeground}" Grid.Row="1" Click="BtnReset_Click" Content="RESET" FontSize="7">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
                             <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="50"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Path x:Name="resetIcon" Data="{StaticResource ResetIcon}" Fill="{DynamicResource LightForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Width="10" Height="10"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FF272727"/>
+                                <Setter TargetName="resetIcon" Property="Fill" Value="{DynamicResource LightMouseOverForegroundColor}"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource LightMouseOverBackgroundColor}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+
+            <Button  x:Name="BtnAddTimestamp" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="139,0,0,36" Width="20" Height="20" Foreground="{DynamicResource LightForeground}" Background="{DynamicResource LightBackground}" Grid.Row="1" Click="BtnAddTimestamp_Click" FontSize="7">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="50"/>
+                            <ContentPresenter x:Name="contentPresenter" Content="LAP" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource LightMouseOverForegroundColor}"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource LightMouseOverBackgroundColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
         </Grid>
     </Border>
 </Window>
